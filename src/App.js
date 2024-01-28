@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import { Button } from "@mui/material";
+import React, { useEffect } from "react";
+import { decrement, increament, nulled, selectCount } from "./store/countSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { animated } from "react-spring";
 
-function App() {
+const App = () => {
+  let count = useSelector(selectCount);
+  const dispatch = useDispatch();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="container">
+      <div className="counter">
+        {/* Используем animated.div для анимированного элемента */}
+        <animated.div
+          style={{ color: count === 0 ? "black" : count > 0 ? "green" : "red" }}
+          className="count"
         >
-          Learn React
-        </a>
-      </header>
+          {count}
+        </animated.div>
+        <div className="btns">
+          <Button
+            onClick={() => dispatch(increament())}
+            variant="contained"
+            color="success"
+          >
+            +
+          </Button>
+          <Button onClick={() => dispatch(nulled())} color="secondary">
+            RESET
+          </Button>
+          <Button
+            onClick={() => dispatch(decrement())}
+            variant="outlined"
+            color="error"
+          >
+            -
+          </Button>
+        </div>
+      </div>
     </div>
   );
-}
+};
 
 export default App;
